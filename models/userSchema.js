@@ -15,6 +15,9 @@ const userSchema = new mongoose.Schema({
  deleteFlag: { type: Boolean, default: false },
  createdAt: { type: Date, default: Date.now },
  updatedAt: { type: Date, default: Date.now },
+ asContributor: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Club', required: false }],
+ asCreator: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Club', required: false }],
+ asFollower: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Club', required: false }],
 });
 // Create the model
 const User = mongoose.model('User', userSchema);

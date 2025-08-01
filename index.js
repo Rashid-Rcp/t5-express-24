@@ -4,6 +4,10 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import accountRoutes from "./routes/accountRoutes.js";
 import preferenceRoutes from "./routes/preferenceRoute.js";
+import userRoutes from "./routes/userRoutes.js";
+import feedRoutes from "./routes/feedRoutes.js";
+import clubRoutes from "./routes/clubRoutes.js";
+import discussionRoutes from "./routes/discussionRoutes.js";
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 
@@ -22,14 +26,13 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(bodyParser.json());
-
+app.use(express.static('public'));
+// app.use('/uploads', express.static('public/uploads'));
 
 const mongoURI = "mongodb://localhost:27017/T5DB";
 mongoose.connect(mongoURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
   autoIndex: true,
-});
+}); 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "Connection error:"));
 db.once("open", () => {
@@ -38,8 +41,12 @@ db.once("open", () => {
 
 app.use("/api/account", accountRoutes);
 app.use("/api/preferences", preferenceRoutes);
+app.use("/api/user", userRoutes); 
+app.use("/api/feed", feedRoutes);
+app.use("/api/club", clubRoutes);
+app.use("/api/discussion", discussionRoutes);
 
 const PORT = 4000;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
-});
+}); 
